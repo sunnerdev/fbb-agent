@@ -37,6 +37,8 @@ if($_SESSION['access_token']!='')
 
   <script>
                 function login_submit(){
+                  $( ".overlay" ).show();
+                  $( "#btn_submit").attr("disabled", true);
 
                         console.log($( "#loginform" ).serializeArray());
                         var url="resource/login.app.php";
@@ -60,6 +62,8 @@ if($_SESSION['access_token']!='')
                                 //toggleLoginProgressBar();
                                 alert('เกิดข้อผิดพลาด ลองใหม่อีกครั้งในภายหลัง');
                             }
+                            $( ".overlay" ).hide();
+                            $( "#btn_submit").attr("disabled", flase);
                         }, "json");	
                 }
 
@@ -91,22 +95,27 @@ if($_SESSION['access_token']!='')
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              
+            
             </label>
           </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="button" class="btn btn-primary btn-block btn-flat" onclick="login_submit();">Sign In</button>
+          <button id="btn_submit" type="submit" class="btn btn-primary btn-block btn-flat" onclick="login_submit();"><div class="overlay" style="display:none;">
+          <i class="fa fa-refresh fa-spin"></i>
+        </div>Sign In</button>
         </div>
         <!-- /.col -->
       </div>
+      
     </form>
 
     
 
   </div>
   <!-- /.login-box-body -->
+
+  
 </div>
 <!-- /.login-box -->
 
