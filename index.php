@@ -11,7 +11,7 @@ if($_SESSION['access_token']=='')
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Agent - <?php echo $_SESSION['DATA']->username; ?></title>
+  <title>Agent - <?php echo strtoupper($_SESSION['DATA']->username); ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -86,65 +86,64 @@ if($_SESSION['access_token']=='')
 
 <script>
 
-function NotifyItemShow(){
-  var dep_item = $('#alert_withdrawal_c').text();
-  var wd_item =  $('#alert_deposit_c').text();
-
-var item = parseFloat(dep_item)+parseFloat(wd_item);
-  console.log(dep_item,wd_item,item);
-  if(item==0){
-    $('#notify-item').hide();
-    $('#notify-item').text(0);
-  }else{
-    $('#notify-item').text(item);
-    $('#notify-item').show();
-  }
-}
-
-function GetDepositAlert()
+function GetAlert()
 {
   var htmlopt = '';
 
-  var url="resource/transaction.app.php";
-  var dataSet = {types:'deposit'}
-  $.post(url,dataSet,function(data){
-    console.log(data.data.length);
-    var alert_deposit_c = data.data.length;
-    if(alert_deposit_c==0){
-      $('#alert_deposit_c').hide();
-      $('#alert_deposit_c').text(0);      
-    }else{
-      $('#alert_deposit_c').show();
-      $('#alert_deposit_c').text(alert_deposit_c);      
-    }
-
-    NotifyItemShow();   
-  }, "json");	
-}
-GetDepositAlert();
-setInterval(GetDepositAlert, 10000);
-
-function GetWithdrawalAlert()
-{
-  var htmlopt = '';
+  var dep = [];
+  var wd = [];
 
   var url="resource/transaction.app.php";
-  var dataSet = {types:'withdrawal'}
+  var dataSet = { status:'pending' }
   $.post(url,dataSet,function(data){
-    console.log(data.data.length);
-    var alert_withdrawal_c = data.data.length;
-    if(alert_withdrawal_c==0){
-      $('#alert_withdrawal_c').hide();
-      $('#alert_withdrawal_c').text(0);      
-    }else{
-      $('#alert_withdrawal_c').show();
-      $('#alert_withdrawal_c').text(alert_withdrawal_c);      
+    //console.log(data.data.length);
+    
+    $.each(data.data, function(k,v) {
+      if(v.transaction_type=='deposit'){
+        dep.push(v.id);
+      }
+
+      if(v.transaction_type=='withdrawal'){
+        wd.push(v.id);
+      }
+    });
+
+    //console.log(dep.length,wd.length);
+    if(dep.length>0){
+      var alert_deposit_c = dep.length;
+      if(alert_deposit_c==0){
+        $('#alert_deposit_c').hide();
+        $('#alert_deposit_c').text(0);      
+      }else{
+        $('#alert_deposit_c').show();
+        $('#alert_deposit_c').text(alert_deposit_c);      
+      }
     }
-    NotifyItemShow();
+
+    if(wd.length>0){
+      var alert_withdrawal_c = wd.length;
+      if(alert_withdrawal_c==0){
+        $('#alert_withdrawal_c').hide();
+        $('#alert_withdrawal_c').text(0);      
+      }else{
+        $('#alert_withdrawal_c').show();
+        $('#alert_withdrawal_c').text(alert_withdrawal_c);      
+      }
+    }
+    
+    var item = parseFloat(dep.length)+parseFloat(wd.length);
+    if(item==0){
+      $('#notify-item').hide();
+      $('#notify-item').text(0);
+    }else{
+      $('#notify-item').text(item);
+      $('#notify-item').show();
+    }
   }, "json");	
 }
-GetWithdrawalAlert();
-setInterval(GetWithdrawalAlert, 10000);
+GetAlert();
+setInterval(GetAlert, 10000);
+
 
 function AlertAni(){
   $.each(['alert_deposit_c','alert_withdrawal_c'], function(k,v) {
