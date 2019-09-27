@@ -1,8 +1,8 @@
 <section class="content-header">
-  <h1>รายการถอน<small></small></h1>
+  <h1>รายการฝาก<small></small></h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">รายการถอน</li>
+    <li class="active">รายการฝาก</li>
   </ol>
 </section>
 
@@ -11,7 +11,7 @@
   
   <div class="col-md-12">
   <form id="search_form" name="search_form">
-  <input type="hidden" name="types" id="types" value="withdrawal">
+  <input type="hidden" name="types" id="types" value="deposit">
   <input type="hidden" name="status" id="types" value="pending">
     <div class="box box-primary">
       <div class="box-header">
@@ -28,7 +28,7 @@
               <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
               </div>
-              <input type="text" class="form-control pull-right" name="txt" id="txt" value="withdrawaltxt">
+              <input type="text" class="form-control pull-right" name="txt" id="txt" value="deposittxt">
             </div>
             <!-- /.input group -->
           </div>
@@ -45,7 +45,7 @@
   <div class="col-md-12">
     <div class="box box-primary">
       <div class="box-header">
-        <h3 class="box-title">รายการถอน</h3>
+        <h3 class="box-title">รายการฝาก</h3>
       </div>
       <div class="box-body">
         <table id="example2" class="table table-bordered table-hover">
@@ -59,7 +59,7 @@
               <th>กลุ่ม</th>
               <th>ธนาคาร</th>
               <th>สถานะ</th>
-              <th>ยอดถอน</th>
+              <th>ยอดฝาก</th>
               <th>การกระทำ</th>
             </tr>
           </thead>
@@ -82,7 +82,7 @@
       <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">withdrawal Ticket - D1029903</h4>
+                <h4 class="modal-title">Deposit Ticket - D1029903</h4>
               </div>
               <div class="modal-body bg-gray" id="show_data_detail">
                 <div class="row">
@@ -119,7 +119,7 @@
                             </tr>
                             <tr>
                               <th>ชื่อโบนัส</th>
-                              <td>โบนัสทุกยอดถอน 5%</td>
+                              <td>โบนัสทุกยอดฝาก 5%</td>
                             </tr>
                             <tr>
                               <th>percentage</th>
@@ -177,36 +177,6 @@
                             <tbody id="log_detail">
                           </tbody></table>
                           <input type="hidden" id="transID" name="transID" value="">
-                          
-                          <table style="margin:5px 5px 5px 5px;width:95%">
-                            <tbody>
-                              <tr>
-                                <td style="text-align:center;">
-                                  <span id="ticketInfo">
-                                      <br>
-                                      <!--<input type="radio" value="" name="rad_remarks" onclick="doRemarks(&quot;please contact us&quot;);">please contact us&nbsp;&nbsp;&nbsp;&nbsp;
-                                      <input type="radio" value="" name="rad_remarks" onclick="doRemarks(&quot;&quot;);">no remarks<br>&nbsp;&nbsp;&nbsp;&nbsp;-->
-                                      <textarea class="inputbox" rows="3" cols="80" name="note" id="note"></textarea>
-                                      <br><br>
-                                      <table width="100%">
-                                        <tbody>
-                                          <tr valign="top"><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                          <td align="left"></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                          <td align="center">
-                                            <!--<input type="checkbox" name="chk_approve" id="chk_approve" onclick="Setwithdrawal(this.checked)"> verified<br><br> -->
-                                            <input type="submit" class="btn btn-success" value="approve" name="action" id="btn_approve" onclick="Setwithdrawal('approve');"> 
-                                            <input type="submit" class="btn btn-warning" value="reject" name="action" id="btn_reject" onclick="Setwithdrawal('reject');"> 
-                                            <input type="button" class="btn btn-danger" value="cancel/pending" name="cancel" id="btn_cancel" onclick="$('#modal-transaction').modal('hide');">
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                  </span>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                    
                         </div>
                         <!-- /.box-body -->
                       </div>
@@ -225,12 +195,12 @@
 
 <script>
 
-function GetwithdrawalList()
+function GetDepositList()
 {
   var htmlopt = '';
 
   var url="resource/transaction.app.php";
-  var dataSet = $( "#search_form" ).serializeArray();
+  var dataSet = {};
   $.post(url,dataSet,function(data){
     console.log(data);
     var i=0;
@@ -263,7 +233,7 @@ function GetwithdrawalList()
 
 }
 
-GetwithdrawalList();
+GetDepositList();
 
 function GetDetail(id)
 {
@@ -348,7 +318,7 @@ function GetDetail(id)
                                 '</tr>'+
                                 '<tr>'+
                                 '  <th>DateTime</th>'+
-                                '  <td>'+data.ticket.withdrawal_time+'</td>'+
+                                '  <td>'+data.ticket.deposit_time+'</td>'+
                                 '</tr>'+
                                 '<tr>'+
                                 '  <th>อ้างอิง	</th>'+
@@ -360,7 +330,7 @@ function GetDetail(id)
                                 '</tr>'+
                                 '<tr>'+
                                 '  <th>ธนาคาร</th>'+
-                                '  <td>'+data.ticket.withdrawal_tos+'</td>'+
+                                '  <td>'+data.ticket.deposit_tos+'</td>'+
                                 '</tr>'+
                                 '<tr>'+
                                 '  <th>submitted on</th>'+
@@ -405,31 +375,5 @@ function GetDetail(id)
   }, "json");	
 
   
-}
-
-function Setwithdrawal(status)
-{
-  var id = $('#transID').val();
-  var url="resource/trans_act.app.php";
-  var dataSet = { id:id, note:$( "#note" ).val(), status:status }
-  $.post(url,dataSet,function(data){
-    console.log(data);
-    if(data.success == true){
-      $('#tr_'+id).hide();
-      alert('ทำรายการสำเร็จ');
-      $('#transID').val('');
-      $('#modal-transaction').modal('hide');
-    }
-
-    if(data.success == false){
-      alert(data.msg);
-    }
-
-  }, "json");	
-
-  
-
-  
-
 }
 </script>

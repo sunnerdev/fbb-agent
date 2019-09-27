@@ -109,7 +109,7 @@ function GetAlert()
     });
 
     //console.log(dep.length,wd.length);
-    if(dep.length>0){
+    //if(dep.length>0){
       var alert_deposit_c = dep.length;
       if(alert_deposit_c==0){
         $('#alert_deposit_c').hide();
@@ -118,9 +118,9 @@ function GetAlert()
         $('#alert_deposit_c').show();
         $('#alert_deposit_c').text(alert_deposit_c);      
       }
-    }
+   // }
 
-    if(wd.length>0){
+    //if(wd.length>0){
       var alert_withdrawal_c = wd.length;
       if(alert_withdrawal_c==0){
         $('#alert_withdrawal_c').hide();
@@ -129,7 +129,7 @@ function GetAlert()
         $('#alert_withdrawal_c').show();
         $('#alert_withdrawal_c').text(alert_withdrawal_c);      
       }
-    }
+    //}
     
     var item = parseFloat(dep.length)+parseFloat(wd.length);
     if(item==0){
@@ -268,6 +268,10 @@ setInterval(AlertAni, 500);
               <span class="label label-danger pull-right" id="alert_withdrawal_c" style="display:none;">0</span>
             </span>
           </a>
+        </li>
+
+        <li <?php echo ($_GET['m']=='transaction'?'class="active"':''); ?>>
+          <a href="index.php?m=transaction&r=list"><i class="fa fa-circle-o"></i> <span>รายการทั้งหมด</span></a>
         </li>
 
         <li class="<?php echo ($_GET['m']=='members'?'active':''); ?> treeview">
