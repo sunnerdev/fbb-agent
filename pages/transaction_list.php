@@ -11,8 +11,6 @@
   
   <div class="col-md-12">
   <form id="search_form" name="search_form">
-  <input type="hidden" name="types" id="types" value="deposit">
-  <input type="hidden" name="status" id="types" value="pending">
     <div class="box box-primary">
       <div class="box-header">
         <h3 class="box-title">ค้นหา</h3>
@@ -23,16 +21,36 @@
         <div class="col-md-6">
           <!-- Date -->
           <div class="form-group">
-            <label>อีเมล์ / ชื่อผู้ใช้ / เบอร์โทรศัพท์ / Referer URL :</label>
+            <label>startdate</label>
             <div class="input-group date">
               <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
               </div>
-              <input type="text" class="form-control pull-right" name="txt" id="txt" value="deposittxt">
+              <input type="text" class="form-control pull-right datepicker" name="startdate" id="datepicker" value="<?php echo date('Y-m-d'); ?>">
             </div>
             <!-- /.input group -->
           </div>
           <!-- /.form group -->
+        </div>
+
+        <div class="col-md-6">
+          <!-- Date -->
+          <div class="form-group">
+            <label>enddate</label>
+            <div class="input-group date">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <input type="text" class="form-control pull-right" name="enddate" id="datepicker" value="<?php echo date('Y-m-d'); ?>">
+            </div>
+            <!-- /.input group -->
+          </div>
+          <!-- /.form group -->
+        </div>
+
+        <div class="col-md-12">
+          <!-- Date -->
+          <button type="button" class="btn btn-primary pull-right" onclick="GetTransactionList();">Submit</button>
         </div>
       </div>
     </div>
@@ -195,12 +213,12 @@
 
 <script>
 
-function GetDepositList()
+function GetTransactionList()
 {
   var htmlopt = '';
 
   var url="resource/transaction.app.php";
-  var dataSet = {};
+  var dataSet = $( "#search_form" ).serializeArray();
   $.post(url,dataSet,function(data){
     console.log(data);
     var i=0;
@@ -233,7 +251,7 @@ function GetDepositList()
 
 }
 
-GetDepositList();
+GetTransactionList();
 
 function GetDetail(id)
 {

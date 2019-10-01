@@ -85,6 +85,10 @@ if($_SESSION['access_token']=='')
 
 
 <script>
+ //Date picker
+ $('#datepicker').datepicker({
+      autoclose: true
+ });
 
 function GetAlert()
 {
@@ -94,7 +98,7 @@ function GetAlert()
   var wd = [];
 
   var url="resource/transaction.app.php";
-  var dataSet = { status:'pending' }
+  var dataSet = { status:'pending',startdate:'all' }
   $.post(url,dataSet,function(data){
     //console.log(data.data.length);
     
